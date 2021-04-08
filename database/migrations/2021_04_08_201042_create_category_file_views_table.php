@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\MigrationConstants;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,10 @@ class CreateCategoryFileViewsTable extends Migration
     {
         Schema::create('category_file_views', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_file_id')->constrained();
+            $table->string('device_id', MigrationConstants::DEFAULT_STRING_LENGTH)->nullable(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
