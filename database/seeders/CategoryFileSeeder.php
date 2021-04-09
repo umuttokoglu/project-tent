@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CategoryFile;
 use Illuminate\Database\Seeder;
 
 class CategoryFileSeeder extends Seeder
@@ -13,6 +14,6 @@ class CategoryFileSeeder extends Seeder
      */
     public function run()
     {
-        //
+        CategoryFile::factory(100)->create();
     }
 }
