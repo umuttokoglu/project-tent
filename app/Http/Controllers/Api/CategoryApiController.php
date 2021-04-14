@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 
 class CategoryApiController extends Controller implements ICategoryController
 {
-    /**
-     * @return JsonResponse
-     */
     public function getCategories(): JsonResponse
     {
         $categoriesResult = CategoryApiService::getAllCategories();
@@ -23,11 +20,6 @@ class CategoryApiController extends Controller implements ICategoryController
         return $categoriesResult->toJson();
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
     public function getCategory(Request $request): JsonResponse
     {
         $categoryRequest = CategoryParser::parseCategoryRequest($request);
