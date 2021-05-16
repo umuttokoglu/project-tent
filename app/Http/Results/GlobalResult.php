@@ -9,23 +9,20 @@ use Illuminate\Http\JsonResponse;
 
 class GlobalResult
 {
-    protected $data = [];
+    protected $data;
     protected $success = false;
     protected $errorCode;
     protected $errors = [];
 
-    /**
-     * @return array
-     */
-    public function getData(): array
+    public function getData()
     {
         return $this->data;
     }
 
     /**
-     * @param array $data
+     * @param $data
      */
-    public function setData(array $data): void
+    public function setData($data): void
     {
         $this->data = $data;
     }
