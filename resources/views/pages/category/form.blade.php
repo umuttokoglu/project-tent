@@ -27,10 +27,9 @@
                 </div>
             </div>
             <div class="widget-content widget-content-area">
-                <form action="{{ (null !== $category->getData()) ? route('category-update', [$category->getData()->id]) : route('category-store') }}"
-                      method="POST"
-                      enctype="multipart/form-data">
+                <form action="{{ route('category-store-or-update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="category_id" value="{{ (null !== $category->getData()) ? $category->getData()->id : '' }}">
                     <div class="form-row">
                         <div class="col-md-6 mb-5">
                             <label for="category_name_tr">Kategori adı*</label>
@@ -99,7 +98,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-block btn-primary mt-2" type="submit">Kayde</button>
+                    <button class="btn btn-block btn-primary mt-2" type="submit">Kaydet</button>
                 </form>
             </div>
         </div>

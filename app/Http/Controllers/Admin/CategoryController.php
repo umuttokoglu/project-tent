@@ -8,6 +8,8 @@ use App\Http\Parsers\CategoryParser;
 use App\Http\Results\GlobalResult;
 use App\Http\Services\Admin\CategoryService;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -56,12 +58,19 @@ class CategoryController extends Controller
         return view('pages.category.form', ['category' => $result]);
     }
 
-    public function store(Request $request)
+    public function storeOrUpdate(Request $request): RedirectResponse
     {
-        dd($request->category_img);
-        $commentStoreRequest = CategoryParser::parseCategoryRequest($request);
-        $commentStoreResult = CategoryService::storeCategory($commentStoreRequest);
+        $categoryStoreOrUpdateRequest = CategoryParser::parseCategoryFormRequest($request);
+        $categoryStoreOrUpdateResult = CategoryService::storeOrUpdateCategory($categoryStoreOrUpdateRequest);
 
-        return response()->json(['result' => $commentStoreResult]);
+        return response()->redirectToRoute('categories')->with('result', $categoryStoreOrUpdateResult);
+    }
+
+    public function delete(Request $request): JsonResponse
+    {
+        $categoryDeleteRequest = CategoryParser::parseCategoryFormRequest($request);
+        $categoryDeleteResult = CategoryService::deleteCategory($categoryDeleteRequest);
+
+        return $categoryDeleteResult->toJson();
     }
 }

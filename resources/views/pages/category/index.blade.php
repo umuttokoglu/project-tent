@@ -134,17 +134,18 @@
                         type: 'POST',
                         url: deleteRoute,
                         data: {
-                            id: categoryId
+                            category_id: categoryId
                         },
                         beforeSend: function () {
                             swal.fire({
+                                type: 'info',
                                 html: '<h5>Kategori siliniyor...</h5>',
                                 showConfirmButton: false,
                                 allowOutsideClick: false
                             });
                         },
                         success: function (data) {
-                            if (data.isSuccess) {
+                            if (data.success) {
                                 swal(
                                     'Kategori silindi!',
                                     'Kategori başarıyla silindi.',
