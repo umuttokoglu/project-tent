@@ -72,7 +72,7 @@
                         @if(null !== $category->getData())
                             @if(null !== $category->getData()->img_url)
                                 <div class="col-md-4">
-                                    <label class="mb-1">Güncel Logo</label>
+                                    <label class="mb-1">Güncel ana görsel</label>
                                     <br>
                                     <img class="img-fluid" src="{{$category->getData()->img_url}}" alt="{{ $category->getData()->name}}" />
                                 </div>

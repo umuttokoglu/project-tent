@@ -7,7 +7,10 @@ namespace App\Http\Services\Admin;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Results\GlobalResult;
 use App\Models\Category;
+use GuzzleHttp\Psr7\Uri;
+use http\Url;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryService
 {
@@ -73,6 +76,13 @@ class CategoryService
 
         if ($category->delete()) {
             $result->setSuccess(true);
+
+            $imgPath = parse_url($category->img_url);
+            $imgPath = public_path($imgPath['path']);
+
+            if (file_exists($imgPath)) {
+                unlink($imgPath);
+            }
         } else {
             $result->addError('İşlem sırasında hata gerçekleşti. Tekrar deneyin.');
         }
