@@ -7,10 +7,9 @@ namespace App\Http\Services\Api;
 use App\Constants\ErrorCodeConstants;
 use App\Http\Requests\CategoryFilesRequest;
 use App\Http\Results\GlobalResult;
-use App\Http\Services\Interfaces\ICategoryFileService;
 use App\Models\CategoryFile;
 
-class CategoryFileApiService implements ICategoryFileService
+class CategoryFileApiService
 {
     public static function getAllCategoryFiles(CategoryFilesRequest $categoryFilesRequest)
     {

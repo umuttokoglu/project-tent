@@ -7,10 +7,9 @@ namespace App\Http\Services\Api;
 use App\Constants\ErrorCodeConstants;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Results\GlobalResult;
-use App\Http\Services\Interfaces\ICategoryService;
 use App\Models\Category;
 
-class CategoryApiService implements ICategoryService
+class CategoryApiService
 {
     /**
      * @return GlobalResult
