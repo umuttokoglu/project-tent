@@ -16,46 +16,17 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $result = new GlobalResult();
+        $allCategoriesResult = CategoryService::getAllCategories();
 
-        $categories = Category::orderBy('status', 'DESC')->paginate(15);
-
-        if ($categories->count() === 0) {
-            $result->addError(__('errors.api.categories_not_found'));
-            $result->setErrorCode(ErrorCodeConstants::CATEGORIES_NOT_FOUND);
-
-            return $result;
-        }
-
-        $result->setData($categories);
-        $result->setSuccess(true);
-
-        return view('pages.category.index', ['categories' => $result]);
+        return view('pages.category.index', ['categories' => $allCategoriesResult]);
     }
 
     public function form(Request $request)
     {
-        $result = new GlobalResult();
+        $categoryFormRequest = CategoryParser::parseCategoryFormRequest($request);
+        $categoryFormResult = CategoryService::getCategory($categoryFormRequest);
 
-        if (null !== $request->segment(3)) {
-            $category = Category::where('id', $request->segment(3))->first();
-
-            if ($category === null) {
-                $result->addError(__('errors.api.category_not_found'));
-                $result->setErrorCode(ErrorCodeConstants::CATEGORY_NOT_FOUND);
-
-                return $result;
-            }
-            $result->setSuccess(true);
-            $result->setData($category);
-
-            return view('pages.category.form', ['category' => $result]);
-        }
-
-        $result->setData(null);
-        $result->setSuccess(true);
-
-        return view('pages.category.form', ['category' => $result]);
+        return view('pages.category.form', ['category' => $categoryFormResult]);
     }
 
     public function storeOrUpdate(Request $request): RedirectResponse

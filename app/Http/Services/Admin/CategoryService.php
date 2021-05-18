@@ -4,24 +4,56 @@
 namespace App\Http\Services\Admin;
 
 
+use App\Constants\ErrorCodeConstants;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Results\GlobalResult;
 use App\Models\Category;
-use GuzzleHttp\Psr7\Uri;
-use http\Url;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryService
 {
-    public static function getAllCategories()
+    public static function getAllCategories(): GlobalResult
     {
-        // TODO: Implement getAllCategories() method.
+        $result = new GlobalResult();
+
+        $categories = Category::orderBy('status', 'DESC')->paginate(15);
+
+        if ($categories->count() === 0) {
+            $result->addError(__('errors.api.categories_not_found'));
+            $result->setErrorCode(ErrorCodeConstants::CATEGORIES_NOT_FOUND);
+
+            return $result;
+        }
+
+        $result->setData($categories);
+        $result->setSuccess(true);
+
+        return $result;
     }
 
-    public static function getCategory(CategoryRequest $categoryRequest)
+    public static function getCategory(CategoryRequest $categoryRequest): GlobalResult
     {
-        // TODO: Implement getCategory() method.
+        $result = new GlobalResult();
+
+        if (!$categoryRequest->getCategoryId()) {
+            $result->setData(null);
+            $result->setSuccess(true);
+
+            return $result;
+        }
+
+        $category = Category::where('id', $categoryRequest->getCategoryId())->first();
+
+        if ($category === null) {
+            $result->addError(__('errors.api.category_not_found'));
+            $result->setErrorCode(ErrorCodeConstants::CATEGORY_NOT_FOUND);
+
+            return $result;
+        }
+
+        $result->setSuccess(true);
+        $result->setData($category);
+
+        return $result;
     }
 
     public static function storeOrUpdateCategory(CategoryRequest $request): GlobalResult
@@ -32,6 +64,7 @@ class CategoryService
             $category = Category::find($request->getCategoryId());
         } else {
             if (null === $request->getCategoryImg()) {
+                $result->setErrorCode(ErrorCodeConstants::CATEGORY_IMG_NOT_FOUND);
                 $result->addError('Kategoriye için bir görsel yüklemelisiniz!');
 
                 return $result;
@@ -56,6 +89,7 @@ class CategoryService
         if ($category->save()) {
             $result->setSuccess(true);
         } else {
+            $result->setErrorCode(ErrorCodeConstants::CATEGORY_COULD_NOT_STORE_OR_UPDATE);
             $result->addError('İşlem sırasında hata gerçekleşti. Tekrar deneyin.');
         }
 
@@ -67,6 +101,7 @@ class CategoryService
         $result = new GlobalResult();
 
         if (!$request->getCategoryId()) {
+            $result->setErrorCode(ErrorCodeConstants::CATEGORY_NOT_FOUND);
             $result->addError('Silinecek kaydı bulamadık.');
 
             return $result;
@@ -84,6 +119,7 @@ class CategoryService
                 unlink($imgPath);
             }
         } else {
+            $result->setErrorCode(ErrorCodeConstants::CATEGORY_COULD_NOT_DELETE);
             $result->addError('İşlem sırasında hata gerçekleşti. Tekrar deneyin.');
         }
 

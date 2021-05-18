@@ -36,6 +36,8 @@ class CategoryParser
 
         if (null !== $request->get('category_id')) {
             $categoryRequest->setCategoryId($request->get('category_id'));
+        } elseif (null !== $request->segment(3)) {
+            $categoryRequest->setCategoryId($request->segment(3));
         }
 
         if (null !== $request->get('category_name_tr')) {

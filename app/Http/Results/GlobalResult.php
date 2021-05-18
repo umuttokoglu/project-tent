@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 class GlobalResult
 {
     protected $data;
+    protected $additionalData = [];
     protected $success = false;
     protected $errorCode;
     protected $errors = [];
@@ -25,6 +26,22 @@ class GlobalResult
     public function setData($data): void
     {
         $this->data = $data;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAdditionalData(): ?array
+    {
+        return $this->additionalData;
+    }
+
+    /**
+     * @param array|null $additionalData
+     */
+    public function setAdditionalData(?array $additionalData): void
+    {
+        $this->additionalData = $additionalData;
     }
 
     /**

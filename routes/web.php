@@ -25,7 +25,8 @@ Route::post('/category-store-or-update', [CategoryController::class, 'storeOrUpd
 Route::post('/category-delete', [CategoryController::class, 'delete'])->name('category-delete');
 
 Route::get('/category-files', [CategoryFileController::class, 'index'])->name('category-files');
-Route::get('/category-file-form', [CategoryFileController::class, 'form'])->name('category-file-form');
-Route::post('/category-file-store-or-update', [CategoryFileController::class, 'store'])->name('category-file-store-or-update');
+Route::get('/category-files/form/{category_file_id?}', [CategoryFileController::class, 'form'])->name('category-file-form');
+Route::get('/category-file-download/{category_file_id}', [CategoryFileController::class, 'download'])->name('category-file-download');
+Route::post('/category-file-store-or-update', [CategoryFileController::class, 'storeOrUpdate'])->name('category-file-store-or-update');
 Route::post('/category-file-delete', [CategoryFileController::class, 'delete'])->name('category-file-delete');
 
