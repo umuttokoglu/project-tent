@@ -24,6 +24,7 @@ class CategoryFileFactory extends Factory
     {
         return [
             'category_id' => $this->faker->numberBetween(1, 50),
+            'name' => $this->faker->firstName . '.pdf',
             'path' => $this->faker->filePath(),
             'file_extension' =>  'pdf',
             'type' => MigrationConstants::ENUM_PDF,
